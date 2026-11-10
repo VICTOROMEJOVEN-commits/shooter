@@ -9,9 +9,11 @@ public class ReciveDamage : MonoBehaviour
     public TextMeshProUGUI HealthText;
     public Image HealthBar;
     public int Health = 100;
+    public EnemyNavigation enemyNavigation;
+   
     void Start()
     {
-
+        enemyNavigation = GetComponentInChildren<EnemyNavigation>();
     }
 
     // Update is called once per frame
@@ -34,7 +36,8 @@ public class ReciveDamage : MonoBehaviour
             if (Health<=0)
             {
                 Debug.Log("Player is dead");
-                Destroy(gameObject);
+            enemyNavigation.Die();
+              
             }    
 
 
