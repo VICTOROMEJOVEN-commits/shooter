@@ -52,7 +52,7 @@ namespace StarterAssets
         {
          
             {
-                Debug.Log("Shoot");
+                if (!enabled || !value.isPressed || Time.timeScale == 0) return;
 				Shoot();
             }
         }
@@ -65,7 +65,7 @@ namespace StarterAssets
 		private void Shoot()
 
 		{
-			Debug.Log("REAL LOGIC SHOOTING GOES HERE");
+			if (!ProjectilePrefab || !ProjectileSpawnPoint) return;
 			GameObject newProjectile = Instantiate(ProjectilePrefab, ProjectileSpawnPoint.position, transform.rotation);
 			
 			newProjectile.GetComponent <Rigidbody>().AddForce(ProjectileSpawnPoint.up * projectileForce, ForceMode.Impulse);
