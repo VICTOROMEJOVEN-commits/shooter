@@ -90,16 +90,19 @@ public static class BoneGunSetup
         var prefab=PrefabUtility.SaveAsPrefabAsset(model,prefabPath);Object.DestroyImmediate(model);
         var mount=GameObject.Find("weapon");
         Undo.RecordObject(mount.transform,"Montar arma de huesos");
-        mount.transform.localPosition=new Vector3(0.17f,-0.145f,0.74f);mount.transform.localRotation=Quaternion.identity;mount.transform.localScale=Vector3.one * 0.68f;
+        mount.transform.localPosition=new Vector3(0.145f,-0.18f,0.72f);mount.transform.localRotation=Quaternion.identity;mount.transform.localScale=Vector3.one * 0.68f;
         var oldMesh=mount.GetComponent<MeshRenderer>(); if(oldMesh){Undo.RecordObject(oldMesh,"Ocultar arma provisional");oldMesh.enabled=false;}
         foreach(var c in mount.GetComponentsInChildren<Collider>()) {Undo.RecordObject(c,"Desactivar colision de arma");c.enabled=false;}
+        var inputs=Object.FindFirstObjectByType<StarterAssets.StarterAssetsInputs>();
+        if(inputs && inputs.ProjectileSpawnPoint) inputs.ProjectileSpawnPoint.SetParent(mount.transform,true);
         foreach(var child in mount.transform.Cast<Transform>().Where(c=>c.name.StartsWith("Osario")).ToArray()) Undo.DestroyObjectImmediate(child.gameObject);
-        var instance=(GameObject)PrefabUtility.InstantiatePrefab(prefab,mount.transform);instance.name="Osario - Arma de huesos";instance.transform.localPosition=Vector3.zero;instance.transform.localRotation=Quaternion.Euler(-4,-25,0);
+        var instance=(GameObject)PrefabUtility.InstantiatePrefab(prefab,mount.transform);instance.name="Osario - Arma de huesos";instance.transform.localPosition=Vector3.zero;instance.transform.localRotation=Quaternion.identity;
         Undo.RegisterCreatedObjectUndo(instance,"Arma Osario");
-        var spawn=mount.transform.Find("SpawnPoint"); Undo.RecordObject(spawn,"Salida del canon");spawn.localPosition=Quaternion.Euler(-4,-25,0)*new Vector3(0,0.055f,0.56f);spawn.localRotation=Quaternion.Euler(90,0,0);spawn.localScale=Vector3.one;
-        var view=mount.GetComponent<BoneWeaponView>();if(!view)view=Undo.AddComponent<BoneWeaponView>(mount);view.visual=instance.transform;
+        var spawn=mount.transform.Find("SpawnPoint"); Undo.RecordObject(spawn,"Salida del canon");spawn.SetParent(instance.transform,false);spawn.localPosition=new Vector3(0,0.055f,0.56f);spawn.localRotation=Quaternion.Euler(90,0,0);spawn.localScale=Vector3.one;
+        var view=mount.GetComponent<BoneWeaponView>();if(!view)view=Undo.AddComponent<BoneWeaponView>(mount);view.visual=instance.transform;view.muzzle=spawn;
+        if(inputs){inputs.aimCamera=mount.GetComponentInParent<Camera>();inputs.projectileUsesGravity=false;instance.transform.rotation=Quaternion.LookRotation(inputs.GetAimPoint()-instance.transform.TransformPoint(Vector3.up*0.055f),mount.transform.parent.up);}
         var oldFlash=mount.transform.Find("Destello Osario");if(oldFlash)Undo.DestroyObjectImmediate(oldFlash.gameObject);
-        var flash=GameObject.CreatePrimitive(PrimitiveType.Sphere);flash.name="Destello Osario";flash.transform.SetParent(mount.transform,false);flash.transform.localPosition=Quaternion.Euler(-4,-25,0)*new Vector3(0,0.055f,0.57f);flash.transform.localRotation=Quaternion.Euler(-4,-25,0);flash.transform.localScale=new Vector3(0.06f,0.06f,0.13f);Object.DestroyImmediate(flash.GetComponent<Collider>());flash.GetComponent<Renderer>().sharedMaterial=soul;
+        var flash=GameObject.CreatePrimitive(PrimitiveType.Sphere);flash.name="Destello Osario";flash.transform.SetParent(spawn,false);flash.transform.localPosition=Vector3.up*0.025f;flash.transform.localRotation=Quaternion.identity;flash.transform.localScale=new Vector3(0.06f,0.13f,0.06f);Object.DestroyImmediate(flash.GetComponent<Collider>());flash.GetComponent<Renderer>().sharedMaterial=soul;
         var light=flash.AddComponent<Light>();light.color=new Color(0.3f,1,0.5f);light.intensity=1.2f;light.range=2;flash.SetActive(false);view.muzzleFlash=flash;view.flashLight=light;
         foreach(var tr in mount.GetComponentsInChildren<Transform>(true))tr.gameObject.layer=mount.layer;
         EditorUtility.SetDirty(view);EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);EditorSceneManager.OpenScene(scene.path);Debug.Log("OSARIO_WEAPON_READY");
@@ -173,6 +176,7 @@ public static class BoneGunSetup
         File.WriteAllText(path,text.ToString());
     }
 }
+
 
 
 

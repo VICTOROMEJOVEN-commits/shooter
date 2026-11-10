@@ -19128,13 +19128,11 @@ Transform:
   m_GameObject: {fileID: 728945976}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.17, y: -0.145, z: 0.74}
+  m_LocalPosition: {x: 0.145, y: -0.18, z: 0.72}
   m_LocalScale: {x: 0.68, y: 0.68, z: 0.68}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1765607502}
   - {fileID: 917688524}
-  - {fileID: 1619152028}
   m_Father: {fileID: 1908066530}
   m_LocalEulerAnglesHint: {x: -5.467, y: -85.423, z: -90.437}
 --- !u!136 &728945978
@@ -19230,6 +19228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoneWeaponView
   visual: {fileID: 917688524}
+  muzzle: {fileID: 1765607502}
   muzzleFlash: {fileID: 1619152027}
   flashLight: {fileID: 1619152029}
 --- !u!1 &735459444
@@ -23300,19 +23299,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 883748895790631190, guid: 1683224cd31aac54bab73b7293dc586d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9757013
+      value: 0.99996114
       objectReference: {fileID: 0}
     - target: {fileID: 883748895790631190, guid: 1683224cd31aac54bab73b7293dc586d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.03407224
+      value: -0.006183028
       objectReference: {fileID: 0}
     - target: {fileID: 883748895790631190, guid: 1683224cd31aac54bab73b7293dc586d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.21630777
+      value: -0.006287419
       objectReference: {fileID: 0}
     - target: {fileID: 883748895790631190, guid: 1683224cd31aac54bab73b7293dc586d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.007553634
+      value: -0.000038876802
       objectReference: {fileID: 0}
     - target: {fileID: 883748895790631190, guid: 1683224cd31aac54bab73b7293dc586d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -23356,7 +23355,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 883748895790631190, guid: 1683224cd31aac54bab73b7293dc586d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1765607502}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1683224cd31aac54bab73b7293dc586d, type: 3}
 --- !u!4 &917688524 stripped
@@ -38197,12 +38199,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1619152027}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.03407224, y: -0.21630777, z: -0.007553634, w: 0.9757013}
-  m_LocalPosition: {x: -0.2386842, y: 0.09462721, z: 0.5118599}
-  m_LocalScale: {x: 0.06, y: 0.06, z: 0.13}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.025, z: 0}
+  m_LocalScale: {x: 0.06, y: 0.13, z: 0.06}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 728945977}
+  m_Father: {fileID: 1765607502}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1619152029
 Light:
@@ -41772,11 +41774,12 @@ Transform:
   m_GameObject: {fileID: 1765607501}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.23446831, y: 0.09392965, z: 0.5028189}
+  m_LocalPosition: {x: 0, y: 0.055, z: 0.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 728945977}
+  m_Children:
+  - {fileID: 1619152028}
+  m_Father: {fileID: 917688524}
   m_LocalEulerAnglesHint: {x: 0, y: 90.223, z: 0}
 --- !u!1 &1772016837
 GameObject:
@@ -45064,6 +45067,11 @@ Transform:
 --- !u!4 &1908066530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
+  m_PrefabInstance: {fileID: 60889539378096550}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1908254144 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9005220659476430821, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
   m_PrefabInstance: {fileID: 60889539378096550}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1912297146
@@ -52179,6 +52187,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5420857361349278248, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+      propertyPath: aimCamera
+      value: 
+      objectReference: {fileID: 1908254144}
     - target: {fileID: 5420857361349278248, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       propertyPath: projectileForce
       value: 100

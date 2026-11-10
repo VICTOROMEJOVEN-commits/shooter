@@ -12,7 +12,9 @@ public class PlayerHealth : MonoBehaviour
         Current = Mathf.Max(0, Current - damage);
         immuneUntil = Time.time + 0.65f;
         MatchGame.Instance?.ShowDamage();
+        CombatSfx.PlayerHurt(transform.position);
         if (Current == 0) MatchGame.Instance?.Finish(false);
     }
 }
+
 

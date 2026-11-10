@@ -55,6 +55,7 @@ public class ReciveDamage : MonoBehaviour
         RefreshUI();
         flashUntil = Time.time + 0.12f;
         MatchGame.Instance?.ShowHit();
+        if (Health > 0) CombatSfx.EnemyHit(transform.position + Vector3.up * 0.5f);
         if (Health == 0)
         {
             if (enemyNavigation) enemyNavigation.Die();
@@ -86,5 +87,6 @@ public class ReciveDamage : MonoBehaviour
         if (HealthBar) HealthBar.fillAmount = (float)Health / maximumHealth;
     }
 }
+
 
 

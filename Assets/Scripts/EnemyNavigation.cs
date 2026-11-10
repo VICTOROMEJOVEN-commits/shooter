@@ -63,6 +63,7 @@ public class EnemyNavigation : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        CombatSfx.EnemyDeath(transform.position + Vector3.up * 0.5f);
         if (agent && agent.enabled)
         {
             if (agent.isOnNavMesh) { agent.isStopped = true; agent.ResetPath(); }
@@ -133,3 +134,4 @@ public class EnemyNavigation : MonoBehaviour
         return float.IsInfinity(floor) ? transform.position.y : transform.position.y + floor + 0.01f - lowest.y;
     }
 }
+
