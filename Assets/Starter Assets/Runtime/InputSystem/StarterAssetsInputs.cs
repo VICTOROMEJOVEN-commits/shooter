@@ -69,6 +69,7 @@ namespace StarterAssets
 			GameObject newProjectile = Instantiate(ProjectilePrefab, ProjectileSpawnPoint.position, transform.rotation);
 			
 			newProjectile.GetComponent <Rigidbody>().AddForce(ProjectileSpawnPoint.up * projectileForce, ForceMode.Impulse);
+                ProjectileSpawnPoint.SendMessageUpwards("OnWeaponFired", SendMessageOptions.DontRequireReceiver);
 		    Destroy (newProjectile, 5f);
 			 }
 			
@@ -104,3 +105,4 @@ namespace StarterAssets
 	}
 	
 }
+

@@ -88,6 +88,10 @@ public static class CemeterySetup
             Vector3 candidate = player.position + new Vector3((column - 4) * 4.2f + (row % 2) * 0.6f, 0, -9 + row * 5f);
             if (!NavMesh.SamplePosition(candidate, out var hit, 1.6f, filter)) continue;
             if (Mathf.Abs(hit.position.y - playerHit.position.y) > 0.7f || Vector3.Distance(hit.position, player.position) < 5.5f) continue;
+            // Graves belong on soil, never on the stone ramp or stairs.
+            var groundHits = Physics.RaycastAll(hit.position + Vector3.up * 1.5f, Vector3.down, 4f, ~0, QueryTriggerInteraction.Ignore)
+                .Where(h => h.normal.y > 0.7f && !h.collider.GetComponentInParent<EnemyNavigation>()).OrderBy(h => h.distance).ToArray();
+            if (groundHits.Length == 0 || !groundHits[0].collider.name.ToLowerInvariant().Contains("ground")) continue;
             if (enemies.Any(e => Vector3.Distance(e.transform.position, hit.position) < 2.4f)) continue;
             if (gravePositions.Any(p => Vector3.Distance(p, hit.position) < 3.5f)) continue;
             if (!NavMesh.CalculatePath(hit.position, playerHit.position, filter, navPath) || navPath.status != NavMeshPathStatus.PathComplete) continue;
@@ -253,6 +257,7 @@ public static class CemeterySetup
         unchecked { uint h = (uint)(x * 374761393 + y * 668265263 + 12345); h = (h ^ (h >> 13)) * 1274126177; return (h & 0xffff) / 65535f; }
     }
 }
+
 
 
 
