@@ -1,9 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyNavigation : MonoBehaviour
 {
+    public const float DeathSpeed = 1.65f;
+    public const float DeathStart = 0.38f;
+    public const float DeathBlend = 0.07f;
     public NavMeshAgent agent;
     public Transform target;
     public Animator enemyAnimator;
@@ -72,45 +76,53 @@ public class EnemyNavigation : MonoBehaviour
 
     IEnumerator DeathSequence()
     {
-        float duration = 0.1f;
+        float duration = 0.15f;
         if (enemyAnimator && enemyAnimator.runtimeAnimatorController)
         {
             enemyAnimator.SetBool("IsMoving", false);
             enemyAnimator.SetTrigger("Die");
             foreach (var clip in enemyAnimator.runtimeAnimatorController.animationClips)
-                if (clip.name.ToLowerInvariant().Contains("dying")) duration = Mathf.Max(duration, clip.length + 0.3f);
+                if (clip.name.ToLowerInvariant().Contains("dying")) duration = Mathf.Max(duration, clip.length * (1 - DeathStart) / DeathSpeed + DeathBlend);
         }
-        // Victory waits for the last death animation to finish.
-        // Once the transition starts, retain ground contact even when the
-        // imported humanoid root has a different height from the idle clip.
-        yield return new WaitForSeconds(0.3f);
+        var skins = GetComponentsInChildren<SkinnedMeshRenderer>();
         var baked = new Mesh();
-        float elapsed = 0.3f;
+        var vertices = new List<Vector3>(10000);
+        float elapsed = 0, nextGroundSample = DeathBlend, targetY = transform.position.y;
         while (elapsed < duration)
         {
-            GroundCorpse(baked);
-            yield return new WaitForSeconds(0.1f);
-            elapsed += 0.1f;
+            if (elapsed >= nextGroundSample)
+            {
+                targetY = CorpseGroundHeight(skins, baked, vertices);
+                nextGroundSample = elapsed + 0.05f;
+            }
+            var position = transform.position;
+            position.y = Mathf.Lerp(position.y, targetY, 1 - Mathf.Exp(-40 * Time.deltaTime));
+            transform.position = position;
+            yield return null;
+            elapsed += Time.deltaTime;
         }
-        GroundCorpse(baked);
+        var finalPosition = transform.position;
+        finalPosition.y = CorpseGroundHeight(skins, baked, vertices);
+        transform.position = finalPosition;
         Destroy(baked);
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.15f);
         MatchGame.Instance?.EnemyDefeated(this);
         Destroy(gameObject);
     }
-    void GroundCorpse(Mesh baked)
+    float CorpseGroundHeight(SkinnedMeshRenderer[] skins, Mesh baked, List<Vector3> vertices)
     {
-        Vector3 lowest = Vector3.up * float.PositiveInfinity;
-        foreach (var skin in GetComponentsInChildren<SkinnedMeshRenderer>())
+        Vector3 lowest = new Vector3(0, float.PositiveInfinity, 0);
+        foreach (var skin in skins)
         {
-            skin.BakeMesh(baked);
-            foreach (var vertex in baked.vertices)
+            skin.BakeMesh(baked); baked.GetVertices(vertices);
+            var matrix = skin.localToWorldMatrix;
+            foreach (var vertex in vertices)
             {
-                var world = skin.transform.TransformPoint(vertex);
+                var world = matrix.MultiplyPoint3x4(vertex);
                 if (world.y < lowest.y) lowest = world;
             }
         }
-        if (float.IsInfinity(lowest.y)) return;
+        if (float.IsInfinity(lowest.y)) return transform.position.y;
         var hits = Physics.RaycastAll(lowest + Vector3.up * 1.5f, Vector3.down, 3f, ~0, QueryTriggerInteraction.Ignore);
         float floor = float.NegativeInfinity;
         foreach (var hit in hits)
@@ -118,6 +130,6 @@ public class EnemyNavigation : MonoBehaviour
             if (hit.normal.y < 0.7f || hit.transform.IsChildOf(transform) || hit.collider.attachedRigidbody) continue;
             if (hit.point.y > floor) floor = hit.point.y;
         }
-        if (!float.IsInfinity(floor)) transform.position += Vector3.up * (floor + 0.01f - lowest.y);
+        return float.IsInfinity(floor) ? transform.position.y : transform.position.y + floor + 0.01f - lowest.y;
     }
 }
