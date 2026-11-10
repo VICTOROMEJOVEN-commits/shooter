@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{{ PRODUCT_NAME }}}</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060b0e;color:#eee;font-family:Arial,sans-serif}#game{display:block;width:100%;height:100%;outline:0}#launch{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;background:linear-gradient(transparent 55%,rgba(0,0,0,.88)),url('cover.png') center/contain no-repeat #060b0e}#panel{text-align:center;padding:24px;width:min(440px,85%)}button{background:#234c3a;color:#f2eee2;border:1px solid #68896a;border-radius:5px;padding:13px 42px;font-size:19px;font-weight:bold;cursor:pointer}button:hover,button:focus{background:#326c50}#status{font-size:14px;line-height:1.5;text-shadow:0 1px 4px #000}#bar{height:5px;background:#243030;margin:12px 0;display:none}#fill{height:100%;width:0;background:#84b997}#notice{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(4,8,10,.95);padding:30px;text-align:center;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<canvas id="game" width="1280" height="720" tabindex="0" aria-label="The Cementery of the Dead"></canvas>
+<div id="launch"><div id="panel"><button id="play">Jugar</button><div id="bar"><div id="fill"></div></div><p id="status">Teclado y mouse · Haz clic en el juego para capturar el cursor y activar el sonido.</p></div></div>
+<div id="notice" role="alert"></div>
+<script>
+const canvas=document.getElementById('game'), launch=document.getElementById('launch'), play=document.getElementById('play'), status=document.getElementById('status'), bar=document.getElementById('bar'), fill=document.getElementById('fill');
+function error(message){const notice=document.getElementById('notice');notice.textContent='No se pudo iniciar el juego.\n'+String(message);notice.style.display='flex';}
+play.addEventListener('click',()=>{play.disabled=true;play.style.display='none';bar.style.display='block';status.textContent='Cargando el cementerio…';const loader=document.createElement('script');loader.src='Build/{{{ LOADER_FILENAME }}}';loader.onload=()=>{createUnityInstance(canvas,{dataUrl:'Build/{{{ DATA_FILENAME }}}',frameworkUrl:'Build/{{{ FRAMEWORK_FILENAME }}}',codeUrl:'Build/{{{ CODE_FILENAME }}}',streamingAssetsUrl:'StreamingAssets',companyName:'{{{ COMPANY_NAME }}}',productName:'{{{ PRODUCT_NAME }}}',productVersion:'{{{ PRODUCT_VERSION }}}',devicePixelRatio:Math.min(window.devicePixelRatio||1,1.5),showBanner:(message,type)=>{if(type==='error')error(message);}},progress=>{fill.style.width=Math.round(progress*100)+'%';status.textContent='Cargando… '+Math.round(progress*100)+'%';}).then(instance=>{window.unityInstance=instance;launch.style.display='none';canvas.focus();}).catch(error);};loader.onerror=()=>error('No se pudo descargar el cargador. Revisa la conexión e inténtalo de nuevo.');document.body.appendChild(loader);});
+</script>
+</body>
+</html>
