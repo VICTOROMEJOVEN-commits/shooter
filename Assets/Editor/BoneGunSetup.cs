@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 
 public static class BoneGunSetup
 {
-    const string Folder = "Assets/Weapons/Osario";
+
     static readonly List<GameObject> pieces = new List<GameObject>();
     [MenuItem("Tools/Shooter/Crear arma Osario")]
     public static void Build()
@@ -30,7 +30,7 @@ public static class BoneGunSetup
             float n = Mathf.PerlinNoise(x/20f,y/49f)*0.14f + Mathf.PerlinNoise(x/3f,y/9f)*0.06f;
             colors[y*256+x] = new Color(0.82f+n,0.80f+n,0.72f+n);
         }
-        texture.SetPixels(colors); texture.Apply(); string texturePath=Folder+"/Textures/Marfil.png";
+        texture.SetPixels(colors); texture.Apply(); string texturePath="Assets/textures/Marfil.png";
         File.WriteAllBytes(texturePath,texture.EncodeToPNG()); Object.DestroyImmediate(texture); AssetDatabase.ImportAsset(texturePath);
         bone.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath));
         var model = new GameObject("Osario - Arma de huesos");
@@ -86,7 +86,7 @@ public static class BoneGunSetup
         Curve(model,"Guardamonte de hueso",guard,0.012f,bone);
         Part(model,"Gatillo",PrimitiveType.Cube,new Vector3(0,-0.105f,0.085f),new Vector3(0.02f,0.065f,0.022f),brass,Quaternion.Euler(20,0,0));
         Combine(model,new[]{bone,iron,black,brass,soul});
-        var prefabPath=Folder+"/Osario.prefab";
+        var prefabPath="Assets/Pre fabs/Osario - Modelo.prefab";
         var prefab=PrefabUtility.SaveAsPrefabAsset(model,prefabPath);Object.DestroyImmediate(model);
         var mount=GameObject.Find("weapon");
         Undo.RecordObject(mount.transform,"Montar arma de huesos");
@@ -109,7 +109,7 @@ public static class BoneGunSetup
     }
     static Material Material(string name,Color color,float smooth,float metallic,Color emission)
     {
-        string path=Folder+"/Materials/"+name+".mat";var m=AssetDatabase.LoadAssetAtPath<Material>(path);if(!m){m=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(m,path);}m.SetColor("_BaseColor",color);m.SetFloat("_Smoothness",smooth);m.SetFloat("_Metallic",metallic);if(emission.maxColorComponent>0){m.EnableKeyword("_EMISSION");m.SetColor("_EmissionColor",emission);}EditorUtility.SetDirty(m);return m;
+        string path="Assets/material/"+name+".mat";var m=AssetDatabase.LoadAssetAtPath<Material>(path);if(!m){m=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(m,path);}m.SetColor("_BaseColor",color);m.SetFloat("_Smoothness",smooth);m.SetFloat("_Metallic",metallic);if(emission.maxColorComponent>0){m.EnableKeyword("_EMISSION");m.SetColor("_EmissionColor",emission);}EditorUtility.SetDirty(m);return m;
     }
     static GameObject Part(GameObject root,string name,PrimitiveType type,Vector3 position,Vector3 scale,Material m,Quaternion? rotation=null)
     {
@@ -150,7 +150,7 @@ public static class BoneGunSetup
             var sources=pieces.Where(p=>p.GetComponent<Renderer>().sharedMaterial==materials[i]).ToArray();
             var combine=sources.Select(p=>new CombineInstance{mesh=p.GetComponent<MeshFilter>().sharedMesh,transform=root.transform.worldToLocalMatrix*p.transform.localToWorldMatrix}).ToArray();
             var mesh=new Mesh{name="Osario - "+materials[i].name,indexFormat=IndexFormat.UInt32};mesh.CombineMeshes(combine,true,true);mesh.RecalculateBounds();
-                        string path=Folder+"/Meshes/Osario_"+i+".obj";
+                        string path="Assets/models/Osario_"+i+".obj";
             ExportObj(mesh,path);
             AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport|ImportAssetOptions.ForceUpdate);
             var importer=(ModelImporter)AssetImporter.GetAtPath(path);importer.globalScale=1;importer.useFileScale=false;importer.materialImportMode=ModelImporterMaterialImportMode.None;importer.SaveAndReimport();
