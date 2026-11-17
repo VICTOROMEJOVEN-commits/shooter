@@ -4,6 +4,11 @@ using TMPro;
 
 public class ReciveDamage : MonoBehaviour
 {
+    [Header("Proyectil")]
+    public bool esProyectil;
+    public int danoProyectil = 25;
+    bool consumido;
+    [Header("Vida del enemigo")]
     public TextMeshProUGUI HealthText;
     public Image HealthBar;
     public int Health = 100;
@@ -18,6 +23,7 @@ public class ReciveDamage : MonoBehaviour
 
     void Awake()
     {
+        if (esProyectil) return;
         maximumHealth = Mathf.Max(1, Health);
         enemyNavigation = GetComponent<EnemyNavigation>() ?? GetComponentInChildren<EnemyNavigation>();
         visuals = GetComponentsInChildren<Renderer>();
@@ -40,23 +46,37 @@ public class ReciveDamage : MonoBehaviour
     public void ConfigurarVida(int cantidad) { Health = Mathf.Max(1, cantidad); maximumHealth = Health; RefreshUI(); }
     void OnCollisionEnter(Collision collision)
     {
+        // El mismo script original gestiona la recepción y la aplicación del daño.
+        if (esProyectil)
+        {
+            if (consumido) return;
+            consumido = true;
+            var enemigo = collision.collider.GetComponentInParent<ReciveDamage>();
+            if (enemigo && !enemigo.esProyectil) enemigo.TakeDamage(danoProyectil);
+            else
+            {
+                MatchGame.Instance?.ImpactarTabla(collision.transform);
+                if (collision.contactCount > 0) MatchGame.Instance?.Impacto(collision.GetContact(0).point, collision.GetContact(0).normal);
+            }
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+            return;
+        }
         var projectile = collision.rigidbody ? collision.rigidbody.gameObject : collision.gameObject;
-        if (!projectile.CompareTag("Projectile")) return;
-        // Un proyectil solo puede dañar una vez.
-        if (!projectile.activeSelf) return;
+        var datos = projectile.GetComponent<ReciveDamage>();
+        if (datos && datos.esProyectil) return; // El proyectil ya procesa el impacto.
+        if (!projectile.CompareTag("Projectile") || !projectile.activeSelf) return;
         projectile.SetActive(false);
         Destroy(projectile);
-        var datos = projectile.GetComponent<DanoProyectil>();
-        if (datos && !datos.Consumir()) return;
-        TakeDamage(datos ? datos.cantidad : 25);
+        TakeDamage(25); // Compatibilidad con el proyectil del ejercicio original.
     }
 
     public void TakeDamage(int damage)
     {
-        if (damage <= 0 || Health <= 0 || (enemyNavigation && enemyNavigation.isDead) || (MatchGame.Instance && MatchGame.Instance.Finished)) return;
+        if (esProyectil || damage <= 0 || Health <= 0 || (enemyNavigation && enemyNavigation.isDead) || (MatchGame.Instance && MatchGame.Instance.Finished)) return;
         Health = Mathf.Max(0, Health - damage);
         MatchGame.Instance?.SumarPuntos(10);
-        EfectosCombate.Instancia?.Dano(transform.position + Vector3.up);
+        MatchGame.Instance?.Dano(transform.position + Vector3.up);
         RefreshUI();
         flashUntil = Time.time + 0.12f;
         MatchGame.Instance?.ShowHit();
@@ -70,6 +90,7 @@ public class ReciveDamage : MonoBehaviour
 
     void LateUpdate()
     {
+        if (esProyectil) return;
         bool flashing = Time.time < flashUntil;
         for (int i = 0; i < visuals.Length; i++)
         {

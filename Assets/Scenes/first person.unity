@@ -939,7 +939,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 78473985}
-  - component: {fileID: 78473986}
   m_Layer: 0
   m_Name: Armas de supervivencia
   m_TagString: Untagged
@@ -965,19 +964,6 @@ Transform:
   - {fileID: 789884942}
   m_Father: {fileID: 1908066530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &78473986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 78473984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9317093f439e76548a675157f11bc3a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VistaArma
-  entrada: {fileID: 5393215579111688472}
 --- !u!1 &80433443
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,9 +1074,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 99648273}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 99648272}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!1 &99648270 stripped
@@ -1123,19 +1106,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &99648273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 99648270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 1177901217}
 --- !u!1 &108474316
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,9 +2201,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 227433690}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 227433689}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!4 &227433687 stripped
@@ -2266,19 +2233,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &227433690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227433688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 1177901217}
 --- !u!1 &237426752
 GameObject:
   m_ObjectHideFlags: 0
@@ -4172,6 +4126,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnerTest
   objectToSpawn: {fileID: 4896577681999278174, guid: 9f51f52f03a32da4dae1733805be2c57, type: 3}
   SpawnPosition: {x: 0, y: 0, z: 0}
+  zombiPrefab: {fileID: 0}
+  ventanas: []
+  limiteSimultaneo: 18
+  descansoEntreRondas: 8
 --- !u!4 &431072690
 Transform:
   m_ObjectHideFlags: 0
@@ -5795,9 +5753,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 641221711}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 641221710}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!1 &641221708 stripped
@@ -5830,19 +5785,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &641221711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 641221708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 668840067}
 --- !u!1 &649697931
 GameObject:
   m_ObjectHideFlags: 0
@@ -6032,7 +5974,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 668840066}
-  - component: {fileID: 668840067}
   - component: {fileID: 668840068}
   m_Layer: 0
   m_Name: Ventana oeste
@@ -6065,29 +6006,6 @@ Transform:
   - {fileID: 1874089688}
   m_Father: {fileID: 1990473442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &668840067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668840065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 152944aa56c9cfe4792b77160390eced, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VentanaZombis
-  aparicion: {fileID: 1787970027}
-  entrada: {fileID: 110039045}
-  salida: {fileID: 1823041050}
-  tablas:
-  - {fileID: 641221708}
-  - {fileID: 1496304469}
-  - {fileID: 875921995}
-  limiteJugador: {fileID: 1874089690}
-  sonido: {fileID: 668840068}
-  romper: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
-  reparar: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
 --- !u!82 &668840068
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6411,7 +6329,6 @@ MonoBehaviour:
   attackRange: 1.6
   attackDamage: 20
   attackInterval: 1
-  ventanaEntrada: {fileID: 0}
   Entrando: 0
 --- !u!1 &715160966
 GameObject:
@@ -6713,6 +6630,13 @@ MonoBehaviour:
   muzzle: {fileID: 1765607502}
   muzzleFlash: {fileID: 1619152027}
   flashLight: {fileID: 1619152029}
+  catalogo: []
+  vistaPrevia: {fileID: 0}
+  soporte: {fileID: 0}
+  salida: {fileID: 0}
+  sonido: {fileID: 0}
+  fogonazo: {fileID: 0}
+  espacioActual: 0
 --- !u!1001 &731777952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6970,9 +6894,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 746672362}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 746672361}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!1 &746672359 stripped
@@ -7005,19 +6926,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &746672362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 746672359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 1342521731}
 --- !u!1 &778148032
 GameObject:
   m_ObjectHideFlags: 0
@@ -7260,7 +7168,6 @@ GameObject:
   m_Component:
   - component: {fileID: 803962266}
   - component: {fileID: 803962269}
-  - component: {fileID: 803962268}
   - component: {fileID: 803962267}
   m_Layer: 0
   m_Name: Caja misteriosa
@@ -7384,29 +7291,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &803962268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 803962265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73750a782ec253248bc99a2aeea0f7b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CajaMisteriosa
-  catalogo:
-  - {fileID: 11400000, guid: 535d0f00fde9b2647897da2ee4052aed, type: 2}
-  - {fileID: 11400000, guid: aea4698975ca1c242b48cac902dfc9c1, type: 2}
-  - {fileID: 11400000, guid: 66d51a051c549ec4baabdca40f777837, type: 2}
-  - {fileID: 11400000, guid: 06587e0a5ab870443a84d1034538dd92, type: 2}
-  precio: 500
-  tapa: {fileID: 1802082019}
-  expositor: {fileID: 148838023}
-  luz: {fileID: 1094663858}
-  sonido: {fileID: 803962267}
-  giro: {fileID: 8300000, guid: 3dfd4c83669453243bcd4d17fbe27600, type: 3}
 --- !u!65 &803962269
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7749,9 +7633,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 838175870}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 838175869}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!4 &838175867 stripped
@@ -7784,19 +7665,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &838175870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838175868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 1342521731}
 --- !u!1 &859088504
 GameObject:
   m_ObjectHideFlags: 0
@@ -8228,9 +8096,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 875921997}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 875921996}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!4 &875921994 stripped
@@ -8263,19 +8128,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &875921997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875921995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 668840067}
 --- !u!1001 &876525813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8350,9 +8202,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 876525817}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 876525816}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!1 &876525814 stripped
@@ -8385,19 +8234,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &876525817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 876525814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 1342521731}
 --- !u!1 &882826734
 GameObject:
   m_ObjectHideFlags: 0
@@ -10233,10 +10069,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2984414083405111127, guid: bcb3dfb46056d0640b89a7082b259f7c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1161098446}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcb3dfb46056d0640b89a7082b259f7c, type: 3}
 --- !u!4 &1161098444 stripped
 Transform:
@@ -10248,18 +10081,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2984414083405111127, guid: bcb3dfb46056d0640b89a7082b259f7c, type: 3}
   m_PrefabInstance: {fileID: 1161098443}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1161098446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1161098445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c85fc33b5c7604347b1fa4fce167f5a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VistaPreviaArma
 --- !u!1 &1173204722
 GameObject:
   m_ObjectHideFlags: 0
@@ -10305,7 +10126,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1177901216}
-  - component: {fileID: 1177901217}
   - component: {fileID: 1177901218}
   m_Layer: 0
   m_Name: Ventana este
@@ -10338,29 +10158,6 @@ Transform:
   - {fileID: 2024756668}
   m_Father: {fileID: 1990473442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1177901217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177901215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 152944aa56c9cfe4792b77160390eced, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VentanaZombis
-  aparicion: {fileID: 1144381232}
-  entrada: {fileID: 809921292}
-  salida: {fileID: 1079848609}
-  tablas:
-  - {fileID: 1253510786}
-  - {fileID: 99648270}
-  - {fileID: 227433688}
-  limiteJugador: {fileID: 2024756670}
-  sonido: {fileID: 1177901218}
-  romper: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
-  reparar: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
 --- !u!82 &1177901218
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10991,9 +10788,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1253510789}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1253510788}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!1 &1253510786 stripped
@@ -11026,19 +10820,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &1253510789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1253510786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 1177901217}
 --- !u!1 &1263221488
 GameObject:
   m_ObjectHideFlags: 0
@@ -11645,7 +11426,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1333848113}
   - component: {fileID: 1333848112}
-  - component: {fileID: 1333848115}
   - component: {fileID: 1333848114}
   m_Layer: 0
   m_Name: Game Manager
@@ -11675,6 +11455,15 @@ MonoBehaviour:
   barraVida: {fileID: 1809570511}
   pantallaDano: {fileID: 1683025842}
   panelFinal: {fileID: 1751093697}
+  raizCaja: {fileID: 803962266}
+  precioCaja: 500
+  tapaCaja: {fileID: 1802082019}
+  expositorCaja: {fileID: 148838023}
+  luzCaja: {fileID: 1094663858}
+  sonidoCaja: {fileID: 803962267}
+  giroCaja: {fileID: 8300000, guid: 3dfd4c83669453243bcd4d17fbe27600, type: 3}
+  impacto: {fileID: 2404392427445043861, guid: c571fe604add08441aba1c8752854523, type: 3}
+  danoEnemigo: {fileID: 5802678642083634747, guid: b6ba0c8e97b26ab4c9a40f28237cfda5, type: 3}
 --- !u!4 &1333848113
 Transform:
   m_ObjectHideFlags: 0
@@ -11699,28 +11488,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 1333848111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aefd28ff84579744c9f25a9d143307b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 187f18a70ccbbd943a79ca6c8adf48c6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EfectosCombate
-  impacto: {fileID: 2404392427445043861, guid: c571fe604add08441aba1c8752854523, type: 3}
-  danoEnemigo: {fileID: 5802678642083634747, guid: b6ba0c8e97b26ab4c9a40f28237cfda5, type: 3}
---- !u!114 &1333848115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1333848111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c2b61909a22bd749a60d3f16ba660c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GeneradorRondas
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnerTest
+  objectToSpawn: {fileID: 0}
+  SpawnPosition: {x: 0, y: 0, z: 0}
   zombiPrefab: {fileID: 5583281899458514197, guid: 08d3ae0f15e604546a41b39c92829d3d, type: 3}
   ventanas:
-  - {fileID: 1342521731}
-  - {fileID: 668840067}
-  - {fileID: 1177901217}
+  - raiz: {fileID: 1342521730}
+    aparicion: {fileID: 1281674812}
+    entrada: {fileID: 108474317}
+    salida: {fileID: 2123541734}
+    tablas:
+    - {fileID: 876525814}
+    - {fileID: 746672359}
+    - {fileID: 838175868}
+    limiteJugador: {fileID: 14914512}
+    sonido: {fileID: 1342521732}
+    romper: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
+    reparar: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
+  - raiz: {fileID: 668840066}
+    aparicion: {fileID: 1787970027}
+    entrada: {fileID: 110039045}
+    salida: {fileID: 1823041050}
+    tablas:
+    - {fileID: 641221708}
+    - {fileID: 1496304469}
+    - {fileID: 875921995}
+    limiteJugador: {fileID: 1874089690}
+    sonido: {fileID: 668840068}
+    romper: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
+    reparar: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
+  - raiz: {fileID: 1177901216}
+    aparicion: {fileID: 1144381232}
+    entrada: {fileID: 809921292}
+    salida: {fileID: 1079848609}
+    tablas:
+    - {fileID: 1253510786}
+    - {fileID: 99648270}
+    - {fileID: 227433688}
+    limiteJugador: {fileID: 2024756670}
+    sonido: {fileID: 1177901218}
+    romper: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
+    reparar: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
   limiteSimultaneo: 18
   descansoEntreRondas: 8
 --- !u!1 &1342521729
@@ -11732,7 +11542,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1342521730}
-  - component: {fileID: 1342521731}
   - component: {fileID: 1342521732}
   m_Layer: 0
   m_Name: Ventana norte
@@ -11765,29 +11574,6 @@ Transform:
   - {fileID: 14914510}
   m_Father: {fileID: 1990473442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1342521731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1342521729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 152944aa56c9cfe4792b77160390eced, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VentanaZombis
-  aparicion: {fileID: 1281674812}
-  entrada: {fileID: 108474317}
-  salida: {fileID: 2123541734}
-  tablas:
-  - {fileID: 876525814}
-  - {fileID: 746672359}
-  - {fileID: 838175868}
-  limiteJugador: {fileID: 14914512}
-  sonido: {fileID: 1342521732}
-  romper: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
-  reparar: {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
 --- !u!82 &1342521732
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12767,9 +12553,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1496304472}
-    - targetCorrespondingSourceObject: {fileID: 899428459418414007, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1496304471}
   m_SourcePrefab: {fileID: 100100000, guid: e5f4daf24146ee040b5a2d7a73b30aa0, type: 3}
 --- !u!1 &1496304469 stripped
@@ -12802,19 +12585,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &1496304472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496304469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e8620a6cae8545489f66148181983ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TablaVentana
-  ventana: {fileID: 668840067}
 --- !u!1 &1500426662
 GameObject:
   m_ObjectHideFlags: 0
@@ -19438,16 +19208,13 @@ PrefabInstance:
       addedObject: {fileID: 5393215579111688478}
     - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5393215579111688481}
-    - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5393215579111688480}
     - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5393215579111688479}
+      addedObject: {fileID: 5393215579111688486}
     - targetCorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5393215579111688486}
+      addedObject: {fileID: 5393215579111688487}
   m_SourcePrefab: {fileID: 100100000, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
 --- !u!114 &5393215579111688472 stripped
 MonoBehaviour:
@@ -19491,19 +19258,6 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
---- !u!114 &5393215579111688479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377658478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 916778c76fd5cf941a82f2fe4226a61f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteraccionJugador
-  alcance: 2.8
 --- !u!82 &5393215579111688480
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19601,29 +19355,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5393215579111688481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 377658478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 553b6656b7b5a2842a341cbb4739d1ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ArsenalJugador
-  armaInicial: {fileID: 11400000, guid: 535d0f00fde9b2647897da2ee4052aed, type: 2}
-  soporte: {fileID: 78473985}
-  salida: {fileID: 991640289}
-  sonido: {fileID: 5393215579111688480}
-  fogonazo: {fileID: 789884943}
-  armas:
-  - {fileID: 0}
-  - {fileID: 0}
-  balas: 0000000000000000
-  reservas: 0000000000000000
-  espacioActual: 0
 --- !u!114 &5393215579111688486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19637,6 +19368,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maximumHealth: 100
+--- !u!114 &5393215579111688487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377658478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ba51c21227fe342ae7020966ae0086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoneWeaponView
+  visual: {fileID: 0}
+  muzzle: {fileID: 0}
+  muzzleFlash: {fileID: 0}
+  flashLight: {fileID: 0}
+  catalogo:
+  - nombre: Osario
+    modelo: {fileID: 2984414083405111127, guid: bcb3dfb46056d0640b89a7082b259f7c, type: 3}
+    dano: 25
+    capacidad: 12
+    reservaInicial: 96
+    proyectiles: 1
+    intervalo: 0.3
+    recarga: 1.3
+    dispersion: 0.25
+    automatica: 0
+    disparo: {fileID: 8300000, guid: b3c4af194bd28654bb117daaf1c716b0, type: 3}
+    posicionModelo: {x: 0, y: 0, z: 0}
+    rotacionModelo: {x: 0, y: 0, z: 0}
+    escalaModelo: {x: 0.72, y: 0.72, z: 0.72}
+  - nombre: "R\xE9quiem"
+    modelo: {fileID: 916277337138059406, guid: d40d564609d7edf40b4839866a7f06f4, type: 3}
+    dano: 22
+    capacidad: 30
+    reservaInicial: 180
+    proyectiles: 1
+    intervalo: 0.11
+    recarga: 1.8
+    dispersion: 0.65
+    automatica: 1
+    disparo: {fileID: 8300000, guid: b3c4af194bd28654bb117daaf1c716b0, type: 3}
+    posicionModelo: {x: 0, y: 0, z: 0}
+    rotacionModelo: {x: 0, y: 0, z: 0}
+    escalaModelo: {x: 0.72, y: 0.72, z: 0.72}
+  - nombre: Sepulturera
+    modelo: {fileID: 2900336518137763589, guid: 8d0f11becff0591449073209bc16d9d3, type: 3}
+    dano: 18
+    capacidad: 6
+    reservaInicial: 48
+    proyectiles: 7
+    intervalo: 0.85
+    recarga: 2.2
+    dispersion: 3.5
+    automatica: 0
+    disparo: {fileID: 8300000, guid: b3c4af194bd28654bb117daaf1c716b0, type: 3}
+    posicionModelo: {x: 0, y: 0, z: 0}
+    rotacionModelo: {x: 0, y: 0, z: 0}
+    escalaModelo: {x: 0.72, y: 0.72, z: 0.72}
+  - nombre: Juicio
+    modelo: {fileID: 3345748366764680631, guid: 3355c0d2207c6ad4da0a6fe121d0419c, type: 3}
+    dano: 110
+    capacidad: 5
+    reservaInicial: 35
+    proyectiles: 1
+    intervalo: 1.1
+    recarga: 2.4
+    dispersion: 0.05
+    automatica: 0
+    disparo: {fileID: 8300000, guid: b3c4af194bd28654bb117daaf1c716b0, type: 3}
+    posicionModelo: {x: 0, y: 0, z: 0}
+    rotacionModelo: {x: 0, y: 0, z: 0}
+    escalaModelo: {x: 0.72, y: 0.72, z: 0.72}
+  vistaPrevia: {fileID: 1161098445}
+  soporte: {fileID: 78473985}
+  salida: {fileID: 991640289}
+  sonido: {fileID: 5393215579111688480}
+  fogonazo: {fileID: 789884943}
+  espacioActual: 0
 --- !u!1001 &7288094137546172433
 PrefabInstance:
   m_ObjectHideFlags: 0

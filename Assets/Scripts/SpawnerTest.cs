@@ -1,17 +1,51 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
+// Crea rondas sucesivas; nunca termina la partida por eliminar una ronda.
 public class SpawnerTest : MonoBehaviour
-{ 
-    public GameObject objectToSpawn; // The object to spawn
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        Instantiate(objectToSpawn, SpawnPosition, transform.rotation);
-    }
+{
+    // Campos del spawner original conservados para el ejercicio inicial.
+    public GameObject objectToSpawn;
     public Vector3 SpawnPosition;
-    // Update is called once per frame
-    void Update()
+    [Header("Apariciones por rondas")]
+    public EnemyNavigation zombiPrefab;
+    public DatosVentana[] ventanas = new DatosVentana[0];
+    public int limiteSimultaneo = 18;
+    public float descansoEntreRondas = 8;
+    public int Ronda { get; private set; }
+    public int Pendientes { get; private set; }
+    public float InicioProximaRonda { get; private set; }
+    public bool EnDescanso { get; private set; }
+    int siguienteVentana;
+    IEnumerator Start()
     {
-        
+        if (!zombiPrefab) { if (objectToSpawn) Instantiate(objectToSpawn, SpawnPosition, transform.rotation); yield break; }
+        while (!MatchGame.Instance) yield return null;
+        while (!MatchGame.Instance.Finished)
+        {
+            EnDescanso = true; InicioProximaRonda = Time.time + (Ronda == 0 ? 6 : descansoEntreRondas);
+            while (Time.time < InicioProximaRonda && !MatchGame.Instance.Finished) yield return null;
+            if (MatchGame.Instance.Finished) yield break;
+            EnDescanso = false; Ronda++; Pendientes = 4 + Ronda * 2;
+            while (Pendientes > 0 && !MatchGame.Instance.Finished)
+            {
+                if (MatchGame.Instance.EnemigosVivos < limiteSimultaneo && CrearZombi()) Pendientes--;
+                yield return new WaitForSeconds(Mathf.Max(0.7f, 2.8f - Ronda * 0.12f));
+            }
+            while (MatchGame.Instance.EnemigosVivos > 0 && !MatchGame.Instance.Finished) yield return null;
+        }
+    }
+    public bool CrearZombi()
+    {
+        if (!zombiPrefab || ventanas == null || ventanas.Length == 0) return false;
+        var ventana = ventanas[siguienteVentana++ % ventanas.Length];
+        if (ventana == null || !ventana.PuedeRecibir) return false;
+        var zombi = Instantiate(zombiPrefab, ventana.aparicion.position, ventana.aparicion.rotation);
+        var salud = zombi.GetComponent<ReciveDamage>();
+        if (salud) salud.ConfigurarVida(Mathf.Min(350, 85 + Ronda * 15));
+        if (zombi.agent) zombi.agent.speed = Mathf.Min(3.6f, 1.65f + Ronda * 0.1f);
+        zombi.ventanaEntrada = ventana;
+        return true;
     }
 }

@@ -1,5 +1,0 @@
-Ventana oeste: ruta completa=True
-Ventana este: ruta completa=True
-Ventana norte: ruta completa=True
-Lápidas: 18, agrupadas en dos sectores de 3 x 3.
-Material de partículas: Universal Render Pipeline/Particles/Unlit
