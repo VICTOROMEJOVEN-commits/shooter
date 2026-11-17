@@ -18,6 +18,8 @@ public class MatchGame : MonoBehaviour
     public TMP_Text estado, vida, municion, interaccion, mira, resultado;
     public Image barraVida, pantallaDano;
     public GameObject panelFinal;
+    [Header("Sonidos: disparo, daño al jugador, impacto y muerte del zombi")]
+    public AudioClip[] sonidosCombate;
     readonly HashSet<EnemyNavigation> enemigos = new HashSet<EnemyNavigation>();
     PlayerHealth jugador;
     BoneWeaponView arsenal;

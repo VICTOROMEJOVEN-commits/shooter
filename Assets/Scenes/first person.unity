@@ -11455,6 +11455,11 @@ MonoBehaviour:
   barraVida: {fileID: 1809570511}
   pantallaDano: {fileID: 1683025842}
   panelFinal: {fileID: 1751093697}
+  sonidosCombate:
+  - {fileID: 8300000, guid: b3c4af194bd28654bb117daaf1c716b0, type: 3}
+  - {fileID: 8300000, guid: 21e9fb3d3829fc049a89c92087f55b8a, type: 3}
+  - {fileID: 8300000, guid: 38e8d4911bfa32149a9611ca696d467b, type: 3}
+  - {fileID: 8300000, guid: 3dfd4c83669453243bcd4d17fbe27600, type: 3}
   raizCaja: {fileID: 803962266}
   precioCaja: 500
   tapaCaja: {fileID: 1802082019}

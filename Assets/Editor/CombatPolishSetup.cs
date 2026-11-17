@@ -11,7 +11,7 @@ public static class CombatPolishSetup
     {
         foreach(var name in new[]{"Shot","PlayerHurt","EnemyHit","EnemyDeath"})
         {
-            string path="Assets/Resources/CombatAudio/"+name+".wav";
+            string path="Assets/Audio/"+name+".wav";
             AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
             var importer=(AudioImporter)AssetImporter.GetAtPath(path);
             var settings=importer.defaultSampleSettings;settings.loadType=AudioClipLoadType.DecompressOnLoad;settings.compressionFormat=AudioCompressionFormat.PCM;

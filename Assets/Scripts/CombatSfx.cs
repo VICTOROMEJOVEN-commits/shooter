@@ -23,7 +23,9 @@ public static class CombatSfx
     static void Play(Cue cue, Vector3 position, bool spatial, float volume)
     {
         int index = (int)cue;
-        if (!clips[index]) clips[index] = Resources.Load<AudioClip>("CombatAudio/" + Names[index]);
+        var partida = MatchGame.Instance;
+        if (!clips[index] && partida && partida.sonidosCombate != null && index < partida.sonidosCombate.Length)
+            clips[index] = partida.sonidosCombate[index];
         if (!clips[index]) return;
         if (!root) root = new GameObject("Sonidos de combate").transform;
         Voices.RemoveAll(source => !source);
