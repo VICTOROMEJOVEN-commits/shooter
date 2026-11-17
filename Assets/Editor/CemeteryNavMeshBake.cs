@@ -28,7 +28,7 @@ public static class CemeteryNavMeshBake
         foreach (var renderer in decor.GetComponentsInChildren<MeshRenderer>().Where(r => r.name == "Barrote de hierro" || r.name == "Travesano de reja"))
             if (!renderer.GetComponent<BoxCollider>()) Undo.AddComponent<BoxCollider>(renderer.gameObject);
         var surfaces = Object.FindObjectsByType<NavMeshSurface>(FindObjectsSortMode.None);
-        Directory.CreateDirectory("Assets/Cemetery/Navigation");
+        Directory.CreateDirectory("Assets/Scenes/first person");
         var report = new List<string>();
         foreach (var surface in surfaces)
         {
@@ -45,7 +45,7 @@ public static class CemeteryNavMeshBake
             surface.overrideTileSize = true; surface.tileSize = 128;
             surface.BuildNavMesh();
             if (!surface.navMeshData) throw new Exception("Bake vacio: " + surface.name);
-            string asset = "Assets/Cemetery/Navigation/NavMesh_" + surface.agentTypeID + ".asset";
+            string asset = "Assets/Scenes/first person/NavMesh_" + surface.agentTypeID + ".asset";
             if (AssetDatabase.LoadAssetAtPath<NavMeshData>(asset)) AssetDatabase.DeleteAsset(asset);
             AssetDatabase.CreateAsset(surface.navMeshData, asset);
             EditorUtility.SetDirty(surface);

@@ -10,7 +10,7 @@ Controles: WASD para moverse, mouse para apuntar, clic para disparar, Espacio pa
 
 ## Organización original
 
-Se conservan las carpetas originales. Los modelos importados están en `Assets/models`, sus materiales en `Assets/material`, sus texturas en `Assets/textures`, los clips en `Assets/animations` y los prefabs en `Assets/Pre fabs`. No hay carpetas adicionales de supervivencia ni de recursos externos.
+Se conservan las carpetas originales. Los modelos importados están en `Assets/models`, sus materiales en `Assets/material`, sus texturas en `Assets/textures`, los clips en `Assets/animations` y los prefabs en `Assets/Pre fabs`. El NavMesh queda en `Assets/Scenes/first person`, el perfil de ambiente en `Assets/Settings` y el shader del entorno en `Assets/material`. Se eliminaron las carpetas adicionales Cemetery, Supervivencia y RecursosExternos.
 
 La escena principal sigue siendo `Assets/Scenes/first person.unity`. Se conservan el zombi de Mixamo, el controlador, el suelo ampliado y las dieciocho lápidas agrupadas en dos sectores de nueve. El NavMesh se mantiene horneado y con rutas desde las tres entradas.
 

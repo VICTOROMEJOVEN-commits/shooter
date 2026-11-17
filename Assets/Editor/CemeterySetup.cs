@@ -13,11 +13,11 @@ using Object = UnityEngine.Object;
 
 public static class CemeterySetup
 {
-    const string Art = "Assets/Cemetery";
+
     [MenuItem("Tools/Shooter/Ambientar cementerio")]
     public static void Apply()
     {
-        Directory.CreateDirectory(Art + "/Textures"); Directory.CreateDirectory(Art + "/Materials"); Directory.CreateDirectory(Art + "/Meshes");
+        Directory.CreateDirectory("Assets/textures"); Directory.CreateDirectory("Assets/material"); Directory.CreateDirectory("Assets/models");
         var scene = EditorSceneManager.GetActiveScene();
         if (scene.path != "Assets/Scenes/first person.unity") scene = EditorSceneManager.OpenScene("Assets/Scenes/first person.unity");
         var controller = AssetDatabase.LoadAssetAtPath<AnimatorController>("Assets/animations/Enemy.controller");
@@ -63,7 +63,7 @@ public static class CemeterySetup
             float width = isGround ? size.x : Mathf.Max(size.x, size.z);
             float height = isGround ? size.z : Mathf.Max(size.y, 1);
             material.mainTextureScale = new Vector2(Mathf.Max(1, width / 3) / Mathf.Max(1, uvRange.x), Mathf.Max(1, height / 3) / Mathf.Max(1, uvRange.y));
-            string path = Art + "/Materials/Environment_" + renderer.GetInstanceID().ToString().Replace("-", "n") + ".mat";
+            string path = "Assets/material/Environment_" + renderer.GetInstanceID().ToString().Replace("-", "n") + ".mat";
             if (AssetDatabase.LoadAssetAtPath<Material>(path)) AssetDatabase.DeleteAsset(path);
             AssetDatabase.CreateAsset(material, path);
             Undo.RecordObject(renderer, "Material de cementerio");
@@ -154,7 +154,7 @@ public static class CemeterySetup
         var grading = profile.Add<ColorAdjustments>(); grading.saturation.Override(-22); grading.contrast.Override(12); grading.postExposure.Override(0.1f);
         var vignette = profile.Add<Vignette>(); vignette.intensity.Override(0.22f); vignette.smoothness.Override(0.7f);
         var bloom = profile.Add<Bloom>(); bloom.intensity.Override(0.3f); bloom.threshold.Override(1.1f);
-        const string profilePath = Art + "/CemeteryVolume.asset";
+        const string profilePath = "Assets/Settings/CemeteryVolume.asset";
         if (AssetDatabase.LoadAssetAtPath<VolumeProfile>(profilePath)) AssetDatabase.DeleteAsset(profilePath);
         AssetDatabase.CreateAsset(profile, profilePath); volume.sharedProfile = profile;
         EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();
@@ -185,7 +185,7 @@ public static class CemeterySetup
     }
     static Mesh HeadstoneMesh()
     {
-        const string path = Art + "/Meshes/LapidaArco.asset";
+        const string path = "Assets/models/LapidaArco.asset";
         var existing = AssetDatabase.LoadAssetAtPath<Mesh>(path); if (existing) return existing;
         var polygon = new List<Vector2> { new Vector2(-0.45f, 0), new Vector2(0.45f, 0), new Vector2(0.45f, 0.95f) };
         for (int i = 1; i <= 16; i++) { float angle = i / 16f * Mathf.PI; polygon.Add(new Vector2(Mathf.Cos(angle) * 0.45f, 0.95f + Mathf.Sin(angle) * 0.45f)); }
@@ -198,7 +198,7 @@ public static class CemeterySetup
     }
     static Material MakeMaterial(string name, Texture2D texture, Color color, float smoothness)
     {
-        string path = Art + "/Materials/" + name + ".mat";
+        string path = "Assets/material/" + name + ".mat";
         var material = AssetDatabase.LoadAssetAtPath<Material>(path);
         if (!material) { material = new Material(Shader.Find("Universal Render Pipeline/Lit")); if (AssetDatabase.LoadAssetAtPath<Material>(path)) AssetDatabase.DeleteAsset(path);
             AssetDatabase.CreateAsset(material, path); }
@@ -208,7 +208,7 @@ public static class CemeterySetup
     }
     static Texture2D MakeTexture(string name, int type)
     {
-        string path = Art + "/Textures/" + name + ".png";
+        string path = "Assets/textures/" + name + ".png";
         var existing = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         const int size = 512;
         var texture = new Texture2D(size, size, TextureFormat.RGB24, true);
