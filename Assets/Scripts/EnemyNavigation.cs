@@ -19,10 +19,12 @@ public class EnemyNavigation : MonoBehaviour
     public bool Entrando;
     float nextAttack;
     float nextPath;
+    bool cruzandoEscalera;
 
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        if (agent) agent.autoTraverseOffMeshLink = false;
         enemyAnimator = GetComponentInChildren<Animator>();
         if (enemyAnimator) enemyAnimator.applyRootMotion = false;
     }
@@ -40,9 +42,10 @@ public class EnemyNavigation : MonoBehaviour
 
     void Update()
     {
-        if (isDead || Entrando || !target || (MatchGame.Instance && MatchGame.Instance.Finished)) return;
+        if (isDead || Entrando || cruzandoEscalera || !target || (MatchGame.Instance && MatchGame.Instance.Finished)) return;
         if (agent && agent.enabled && agent.isOnNavMesh)
         {
+            if (agent.isOnOffMeshLink) { StartCoroutine(SubirEscalon()); return; }
             if (Time.time >= nextPath)
             {
                 agent.SetDestination(target.position);
@@ -62,6 +65,26 @@ public class EnemyNavigation : MonoBehaviour
                 nextAttack = Time.time + attackInterval;
             }
         }
+    }
+
+    // Los enlaces conectan los escalones altos que el bake deja separados.
+    IEnumerator SubirEscalon()
+    {
+        cruzandoEscalera = true;
+        Vector3 inicio = transform.position;
+        Vector3 fin = agent.currentOffMeshLinkData.endPos + Vector3.up * agent.baseOffset;
+        agent.updatePosition = false;
+        if (enemyAnimator) enemyAnimator.SetBool("SaltarVentana", true);
+        float avance = 0;
+        while (avance < 1 && !isDead)
+        {
+            avance += Time.deltaTime / 0.8f;
+            transform.position = Vector3.Lerp(inicio, fin, Mathf.Clamp01(avance)) + Vector3.up * Mathf.Sin(Mathf.Clamp01(avance) * Mathf.PI) * 0.2f;
+            yield return null;
+        }
+        if (enemyAnimator) enemyAnimator.SetBool("SaltarVentana", false);
+        if (!isDead && agent && agent.enabled) { agent.CompleteOffMeshLink(); agent.updatePosition = true; }
+        cruzandoEscalera = false;
     }
 
     public void Die()

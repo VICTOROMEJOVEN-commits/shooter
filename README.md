@@ -4,15 +4,15 @@ Proyecto académico de supervivencia en primera persona desarrollado en Unity 6.
 
 ## Juego
 
-Sobrevive a rondas sucesivas de zombis que entran por tres ventanas. Puedes reparar sus tablas, obtener puntos y comprar un arma aleatoria en la caja misteriosa. La partida termina únicamente cuando la vida llega a cero. Hay cuatro armas de estética ósea y dos espacios de inventario.
+Sobrevive a rondas sucesivas de zombis que entran por cuatro ventanas. Puedes reparar sus tablas, obtener puntos y comprar un arma aleatoria en la caja misteriosa. La partida termina únicamente cuando la vida llega a cero. Hay cuatro armas de estética ósea y dos espacios de inventario. La caja está en la plataforma superior de la estructura central; dos enlaces de navegación permiten que los zombis suban los últimos escalones. Las rondas empiezan con 8 enemigos, añaden 4 por ronda y admiten hasta 20 simultáneos.
 
-Controles: WASD para moverse, mouse para apuntar, clic para disparar, Espacio para saltar y Shift para correr. R recarga durante la partida y reinicia después de perder; Q cambia de arma y E usa la caja o repara una ventana.
+Controles: WASD para moverse, mouse para apuntar, clic para disparar, Espacio para saltar y Shift para correr. R recarga durante la partida y reinicia después de perder; Q cambia de arma y E usa la caja o repara una ventana. Clic derecho permite apuntar; el rifle tiene mayor aumento.
 
 ## Organización original
 
 Se conservan las carpetas originales. Los modelos importados están en `Assets/models`, sus materiales en `Assets/material`, sus texturas en `Assets/textures`, los clips en `Assets/animations` y los prefabs en `Assets/Pre fabs`. El NavMesh queda en `Assets/Scenes/first person`, el perfil de ambiente en `Assets/Settings` y el shader del entorno en `Assets/material`. Se eliminaron las carpetas adicionales Cemetery, Supervivencia y RecursosExternos.
 
-La escena principal sigue siendo `Assets/Scenes/first person.unity`. Se conservan el zombi de Mixamo, el controlador, el suelo ampliado y las dieciocho lápidas agrupadas en dos sectores de nueve. El NavMesh se mantiene horneado y con rutas desde las tres entradas.
+La escena principal sigue siendo `Assets/Scenes/first person.unity`. Se conservan el zombi de Mixamo, el controlador, el suelo ampliado y las dieciocho lápidas agrupadas en dos sectores de nueve. El NavMesh se mantiene horneado y con rutas desde las cuatro entradas.
 
 ## Scripts originales
 
@@ -35,3 +35,14 @@ Quaternius y Gonzalo Furnier aportan las animaciones de golpe, salto y reacción
 El controlador y los modelos modulares originales provienen del paquete oficial Unity Starter Assets de Unity Asset Store. El arma Osario y sus adornos, los materiales del cementerio, la música y los sonidos del prototipo anterior se desarrollaron con asistencia de IA. Las tres armas importadas reutilizan esos adornos óseos; no se atribuye Osario a Kenney ni a Mixamo.
 
 El GDD es un documento separado. La build publicada anteriormente en itch.io y los ZIP anteriores todavía corresponden a la versión previa, hasta que se genere una nueva build de forma explícita.
+
+## Diferencias entre armas
+
+| Arma | Comportamiento | Daño | Cargador | Recarga |
+|---|---|---|---|---|
+| Osario | Pistola semiautomática precisa | 34 | 12 | 1,25 s |
+| Réquiem | Subfusil automático, mayor dispersión | 18 | 36 | 1,9 s |
+| Sepulturera | Escopeta de corto alcance, 9 perdigones | 23 por perdigón | 6 | 0,55 s por cartucho; interrumpible |
+| Juicio | Rifle pesado, lento, zoom y gran retroceso | 190 | 5 | 2,7 s |
+
+Cada arma tiene un WAV de disparo diferente en `Assets/Audio`. `Caja Jackpot.wav` sustituye el sonido de la caja: rodillos durante tres segundos y acorde al revelar el premio. Estos cinco efectos son sonidos originales sintetizados para el prototipo con asistencia de IA; no son grabaciones ni audio de Call of Duty. `EnemyDeath.wav` se conserva para la muerte de los enemigos y ya no se usa en la caja. Se reutilizan los modelos Kenney y las piezas óseas existentes, con proporciones distintas para que sus siluetas se diferencien.

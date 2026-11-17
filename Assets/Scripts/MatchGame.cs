@@ -70,7 +70,7 @@ public class MatchGame : MonoBehaviour
             if (barraVida) barraVida.fillAmount = (float)jugador.Current / jugador.maximumHealth;
         }
         if (municion && arsenal && arsenal.Actual != null)
-            municion.text = $"{arsenal.Actual.nombre}\n{arsenal.balas[arsenal.espacioActual]} / {arsenal.reservas[arsenal.espacioActual]}" + (arsenal.Recargando ? "  ·  Recargando…" : "\nR · Recargar    Q · Cambiar arma");
+            municion.text = $"{arsenal.Actual.nombre} · {arsenal.Actual.tipo}\n{arsenal.balas[arsenal.espacioActual]} / {arsenal.reservas[arsenal.espacioActual]}" + (arsenal.Recargando ? "  ·  Recargando…" : "\nR · Recargar   Q · Cambiar\nClic derecho · Apuntar");
         if (interaccion) interaccion.text = arsenal ? arsenal.MensajeInteraccion : "";
         if (mira) { mira.text = Time.unscaledTime < impactoHasta ? "×" : "+"; mira.color = Time.unscaledTime < impactoHasta ? new Color(1, 0.6f, 0.2f) : Color.white; }
         if (pantallaDano) pantallaDano.color = new Color(0.8f, 0, 0, Time.unscaledTime < danoHasta ? 0.22f : 0);

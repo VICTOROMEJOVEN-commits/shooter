@@ -11,7 +11,10 @@ public class SpawnerTest : MonoBehaviour
     [Header("Apariciones por rondas")]
     public EnemyNavigation zombiPrefab;
     public DatosVentana[] ventanas = new DatosVentana[0];
-    public int limiteSimultaneo = 18;
+    public int limiteSimultaneo = 20;
+    public int enemigosIniciales = 8;
+    public int aumentoPorRonda = 4;
+    public float intervaloAparicion = 1.4f;
     public float descansoEntreRondas = 8;
     public int Ronda { get; private set; }
     public int Pendientes { get; private set; }
@@ -27,11 +30,11 @@ public class SpawnerTest : MonoBehaviour
             EnDescanso = true; InicioProximaRonda = Time.time + (Ronda == 0 ? 6 : descansoEntreRondas);
             while (Time.time < InicioProximaRonda && !MatchGame.Instance.Finished) yield return null;
             if (MatchGame.Instance.Finished) yield break;
-            EnDescanso = false; Ronda++; Pendientes = 4 + Ronda * 2;
+            EnDescanso = false; Ronda++; Pendientes = enemigosIniciales + (Ronda - 1) * aumentoPorRonda;
             while (Pendientes > 0 && !MatchGame.Instance.Finished)
             {
                 if (MatchGame.Instance.EnemigosVivos < limiteSimultaneo && CrearZombi()) Pendientes--;
-                yield return new WaitForSeconds(Mathf.Max(0.7f, 2.8f - Ronda * 0.12f));
+                yield return new WaitForSeconds(Mathf.Max(0.45f, intervaloAparicion - Ronda * 0.07f));
             }
             while (MatchGame.Instance.EnemigosVivos > 0 && !MatchGame.Instance.Finished) yield return null;
         }
@@ -44,7 +47,7 @@ public class SpawnerTest : MonoBehaviour
         var zombi = Instantiate(zombiPrefab, ventana.aparicion.position, ventana.aparicion.rotation);
         var salud = zombi.GetComponent<ReciveDamage>();
         if (salud) salud.ConfigurarVida(Mathf.Min(350, 85 + Ronda * 15));
-        if (zombi.agent) zombi.agent.speed = Mathf.Min(3.6f, 1.65f + Ronda * 0.1f);
+        if (zombi.agent) zombi.agent.speed = Mathf.Min(3.6f, 2.15f + Ronda * 0.1f);
         zombi.ventanaEntrada = ventana;
         return true;
     }

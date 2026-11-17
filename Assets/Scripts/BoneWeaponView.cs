@@ -26,7 +26,10 @@ public class BoneWeaponView : MonoBehaviour
     public bool Recargando { get; private set; }
     public DatosArma Actual => armas[espacioActual];
     StarterAssetsInputs entrada;
-    InputAction disparar, recargar, cambiar;
+    InputAction disparar, recargar, cambiar, apuntar;
+    Camera camaraArma;
+    Unity.Cinemachine.CinemachineCamera camaraSeguimiento;
+    float campoVisionOriginal;
     GameObject modeloActual;
     DatosVentana[] ventanas = new DatosVentana[0];
     public string MensajeInteraccion { get; private set; }
@@ -49,7 +52,11 @@ public class BoneWeaponView : MonoBehaviour
         recargar = new InputAction("Recargar", InputActionType.Button, "<Keyboard>/r");
         cambiar = new InputAction("Cambiar arma", InputActionType.Button, "<Keyboard>/q");
         usar = new InputAction("Interactuar", InputActionType.Button, "<Keyboard>/e");
-        disparar.Enable(); recargar.Enable(); cambiar.Enable(); usar.Enable();
+        apuntar = new InputAction("Apuntar", InputActionType.Button, "<Mouse>/rightButton");
+        camaraArma = entrada.GetAimCamera();
+        camaraSeguimiento = UnityEngine.Object.FindFirstObjectByType<Unity.Cinemachine.CinemachineCamera>();
+        campoVisionOriginal = camaraSeguimiento ? camaraSeguimiento.Lens.FieldOfView : camaraArma ? camaraArma.fieldOfView : 60;
+        disparar.Enable(); recargar.Enable(); cambiar.Enable(); usar.Enable(); apuntar.Enable();
     }
     void Start()
     {
@@ -62,6 +69,9 @@ public class BoneWeaponView : MonoBehaviour
     void Update()
     {
         if (Time.timeScale == 0 || Actual == null) return;
+        float objetivoVision = apuntar.IsPressed() ? Actual.zoom : campoVisionOriginal;
+        if (camaraSeguimiento) camaraSeguimiento.Lens.FieldOfView = Mathf.Lerp(camaraSeguimiento.Lens.FieldOfView, objetivoVision, 12 * Time.deltaTime);
+        else if (camaraArma) camaraArma.fieldOfView = Mathf.Lerp(camaraArma.fieldOfView, objetivoVision, 12 * Time.deltaTime);
         ActualizarInteraccion();
         if (cambiar.WasPressedThisFrame() && armas[1 - espacioActual] != null) Equipar(1 - espacioActual);
         if (recargar.WasPressedThisFrame()) Recargar();
@@ -92,6 +102,7 @@ public class BoneWeaponView : MonoBehaviour
     }
     public bool Disparar()
     {
+        if (Recargando && Actual != null && Actual.recargaPorCartucho && balas[espacioActual] > 0) { StopCoroutine(rutinaRecarga); rutinaRecarga = null; Recargando = false; }
         if (Actual == null || Recargando || Time.time < proximoDisparo || (MatchGame.Instance && MatchGame.Instance.Finished)) return false;
         if (balas[espacioActual] <= 0) { Recargar(); return false; }
         if (!entrada.ProjectilePrefab || !salida) return false;
@@ -103,10 +114,11 @@ public class BoneWeaponView : MonoBehaviour
         if (camara && Physics.Linecast(camara.transform.position, origen, out var pared, ~(1 << 2), QueryTriggerInteraction.Ignore)
             && !pared.transform.IsChildOf(transform) && !pared.collider.CompareTag("Projectile"))
             origen = pared.point - (origen - camara.transform.position).normalized * 0.12f;
+        var disparados = new System.Collections.Generic.List<Collider>();
         for (int i = 0; i < Actual.proyectiles; i++)
         {
             Vector3 direccion = (objetivo - origen).normalized;
-            direccion = Quaternion.Euler(Random.Range(-Actual.dispersion, Actual.dispersion), Random.Range(-Actual.dispersion, Actual.dispersion), 0) * direccion;
+            direccion = Quaternion.Euler(Random.Range(-Actual.dispersion, Actual.dispersion) * (apuntar.IsPressed() ? 0.55f : 1), Random.Range(-Actual.dispersion, Actual.dispersion) * (apuntar.IsPressed() ? 0.55f : 1), 0) * direccion;
             var proyectil = Instantiate(entrada.ProjectilePrefab, origen, Quaternion.LookRotation(direccion));
             var dano = proyectil.GetComponent<ReciveDamage>();
             if (!dano) { Destroy(proyectil); continue; }
@@ -114,14 +126,15 @@ public class BoneWeaponView : MonoBehaviour
             var cuerpo = proyectil.GetComponent<Rigidbody>();
             if (!cuerpo) { Destroy(proyectil); continue; }
             cuerpo.useGravity = false; cuerpo.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-            cuerpo.linearVelocity = direccion * 65;
+            cuerpo.linearVelocity = direccion * Actual.velocidadProyectil;
+            foreach (var col in proyectil.GetComponentsInChildren<Collider>()) { foreach (var anterior in disparados) Physics.IgnoreCollision(col, anterior); disparados.Add(col); }
             foreach (var ventana in ventanas) if (ventana.limiteJugador) foreach (var col in proyectil.GetComponentsInChildren<Collider>()) Physics.IgnoreCollision(col, ventana.limiteJugador);
             foreach (var propio in GetComponentsInChildren<Collider>())
                 foreach (var colisionador in proyectil.GetComponentsInChildren<Collider>()) Physics.IgnoreCollision(propio, colisionador);
-            Destroy(proyectil, 4);
+            Destroy(proyectil, Actual.alcance / Actual.velocidadProyectil);
         }
-        retroceso = Mathf.Min(retroceso + 1, 1.7f);
-        if (sonido && Actual.disparo) sonido.PlayOneShot(Actual.disparo);
+        retroceso = Mathf.Min(retroceso + Actual.retroceso, 2.5f);
+        if (sonido && Actual.disparo) { sonido.pitch = Random.Range(0.98f, 1.02f); sonido.PlayOneShot(Actual.disparo, Actual.volumen); }
         else CombatSfx.Shot(transform.position);
         if (fogonazo) { fogonazo.transform.position = salida.position; fogonazo.transform.rotation = salida.rotation; fogonazo.Play(); }
         return true;
@@ -134,6 +147,15 @@ public class BoneWeaponView : MonoBehaviour
     IEnumerator Recarga()
     {
         Recargando = true;
+        if (Actual.recargaPorCartucho)
+        {
+            while (balas[espacioActual] < Actual.capacidad && reservas[espacioActual] > 0)
+            {
+                yield return new WaitForSeconds(Actual.recarga);
+                balas[espacioActual]++; reservas[espacioActual]--;
+            }
+            Recargando = false; rutinaRecarga = null; yield break;
+        }
         yield return new WaitForSeconds(Actual.recarga);
         int cantidad = Mathf.Min(Actual.capacidad - balas[espacioActual], reservas[espacioActual]);
         balas[espacioActual] += cantidad; reservas[espacioActual] -= cantidad;
@@ -141,7 +163,9 @@ public class BoneWeaponView : MonoBehaviour
     }
     void OnDestroy()
     {
-        disparar?.Dispose(); recargar?.Dispose(); cambiar?.Dispose(); usar?.Dispose();
+        disparar?.Dispose(); recargar?.Dispose(); cambiar?.Dispose(); usar?.Dispose(); apuntar?.Dispose();
+        if (camaraArma) camaraArma.fieldOfView = campoVisionOriginal;
+        if (camaraSeguimiento) camaraSeguimiento.Lens.FieldOfView = campoVisionOriginal;
         if (entrada) entrada.disparoGestionado = false;
     }
 
@@ -196,6 +220,13 @@ public class BoneWeaponView : MonoBehaviour
 public class DatosArma
 {
     public string nombre;
+    public string tipo;
+    public float retroceso = 1;
+    public float zoom = 48;
+    public float volumen = 0.8f;
+    public float velocidadProyectil = 80;
+    public float alcance = 70;
+    public bool recargaPorCartucho;
     public GameObject modelo;
     public int dano = 25;
     public int capacidad = 12;
