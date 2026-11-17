@@ -15,6 +15,8 @@ public class EnemyNavigation : MonoBehaviour
     public float attackRange = 1.6f;
     public int attackDamage = 20;
     public float attackInterval = 1f;
+    public VentanaZombis ventanaEntrada;
+    public bool Entrando;
     float nextAttack;
     float nextPath;
 
@@ -25,18 +27,20 @@ public class EnemyNavigation : MonoBehaviour
         if (enemyAnimator) enemyAnimator.applyRootMotion = false;
     }
 
-    void Start()
+    IEnumerator Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
         if (player) target = player.transform;
         if (!GetComponent<ReciveDamage>()) gameObject.AddComponent<ReciveDamage>();
         if (agent) agent.stoppingDistance = attackRange * 0.75f;
         MatchGame.Instance?.Register(this);
+        if (ventanaEntrada) { Entrando = true; yield return StartCoroutine(ventanaEntrada.Entrar(this)); }
+        else if (agent && !isDead) agent.enabled = true;
     }
 
     void Update()
     {
-        if (isDead || !target || (MatchGame.Instance && MatchGame.Instance.Finished)) return;
+        if (isDead || Entrando || !target || (MatchGame.Instance && MatchGame.Instance.Finished)) return;
         if (agent && agent.enabled && agent.isOnNavMesh)
         {
             if (Time.time >= nextPath)
@@ -48,11 +52,12 @@ public class EnemyNavigation : MonoBehaviour
         }
         if (Time.time >= nextAttack && Vector3.Distance(transform.position, target.position) <= attackRange)
         {
-            // Walls block melee attacks as well as projectiles.
+            // La línea de visión evita golpear al jugador a través de las paredes.
             Vector3 origin = transform.position + Vector3.up * 0.4f;
             Vector3 destination = target.position + Vector3.up * 0.8f;
             if (!Physics.Linecast(origin, destination, out var hit) || hit.transform == target || hit.transform.IsChildOf(target))
             {
+                if (enemyAnimator) enemyAnimator.SetTrigger("Golpear");
                 target.GetComponent<PlayerHealth>()?.TakeDamage(attackDamage);
                 nextAttack = Time.time + attackInterval;
             }
@@ -63,6 +68,7 @@ public class EnemyNavigation : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        if (enemyAnimator) enemyAnimator.SetBool("Muerto", true);
         CombatSfx.EnemyDeath(transform.position + Vector3.up * 0.5f);
         if (agent && agent.enabled)
         {
@@ -110,6 +116,7 @@ public class EnemyNavigation : MonoBehaviour
         MatchGame.Instance?.EnemyDefeated(this);
         Destroy(gameObject);
     }
+    void OnDestroy() { MatchGame.Instance?.Retirar(this); }
     float CorpseGroundHeight(SkinnedMeshRenderer[] skins, Mesh baked, List<Vector3> vertices)
     {
         Vector3 lowest = new Vector3(0, float.PositiveInfinity, 0);
@@ -134,4 +141,3 @@ public class EnemyNavigation : MonoBehaviour
         return float.IsInfinity(floor) ? transform.position.y : transform.position.y + floor + 0.01f - lowest.y;
     }
 }
-

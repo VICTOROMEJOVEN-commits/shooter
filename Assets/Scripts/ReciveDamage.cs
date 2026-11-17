@@ -37,25 +37,30 @@ public class ReciveDamage : MonoBehaviour
         RefreshUI();
     }
 
+    public void ConfigurarVida(int cantidad) { Health = Mathf.Max(1, cantidad); maximumHealth = Health; RefreshUI(); }
     void OnCollisionEnter(Collision collision)
     {
         var projectile = collision.rigidbody ? collision.rigidbody.gameObject : collision.gameObject;
         if (!projectile.CompareTag("Projectile")) return;
-        // Disable immediately so one projectile cannot damage two enemies in one physics step.
+        // Un proyectil solo puede dañar una vez.
         if (!projectile.activeSelf) return;
         projectile.SetActive(false);
         Destroy(projectile);
-        TakeDamage(25);
+        var datos = projectile.GetComponent<DanoProyectil>();
+        if (datos && !datos.Consumir()) return;
+        TakeDamage(datos ? datos.cantidad : 25);
     }
 
     public void TakeDamage(int damage)
     {
         if (damage <= 0 || Health <= 0 || (enemyNavigation && enemyNavigation.isDead) || (MatchGame.Instance && MatchGame.Instance.Finished)) return;
         Health = Mathf.Max(0, Health - damage);
+        MatchGame.Instance?.SumarPuntos(10);
+        EfectosCombate.Instancia?.Dano(transform.position + Vector3.up);
         RefreshUI();
         flashUntil = Time.time + 0.12f;
         MatchGame.Instance?.ShowHit();
-        if (Health > 0) CombatSfx.EnemyHit(transform.position + Vector3.up * 0.5f);
+        if (Health > 0) { CombatSfx.EnemyHit(transform.position + Vector3.up * 0.5f); if (enemyNavigation && enemyNavigation.enemyAnimator) enemyNavigation.enemyAnimator.SetTrigger("Impacto"); }
         if (Health == 0)
         {
             if (enemyNavigation) enemyNavigation.Die();
@@ -74,7 +79,7 @@ public class ReciveDamage : MonoBehaviour
             block.SetColor("_BaseColor", flashing ? Color.Lerp(originalColors[i], Color.red, 0.7f) : originalColors[i]);
             visual.SetPropertyBlock(block);
         }
-        // A short procedural recoil works with the existing Mixamo clips.
+        // Reacción breve al impacto sin cambiar el modelo ni sus animaciones.
         if (animatedModel)
         {
             float angle = flashing && Health > 0 ? Mathf.Sin((flashUntil - Time.time) / 0.12f * Mathf.PI) * 7f : 0;
@@ -87,6 +92,3 @@ public class ReciveDamage : MonoBehaviour
         if (HealthBar) HealthBar.fillAmount = (float)Health / maximumHealth;
     }
 }
-
-
-

@@ -34,10 +34,10 @@ public static class CemeteryNavMeshBake
         {
             Undo.RecordObject(surface, "Bake de navegacion del cementerio");
             // The old all-objects bake included a 2 km background plane.
-            // Include the entire arena and all seven spawn points, with margins.
+            // Incluye la arena ampliada y las tres entradas de zombis.
             surface.collectObjects = CollectObjects.Volume;
-            surface.center = surface.transform.InverseTransformPoint(new Vector3(2, 5, 3));
-            surface.size = new Vector3(76, 20, 82);
+            surface.center = surface.transform.InverseTransformPoint(new Vector3(4, 5, 11));
+            surface.size = new Vector3(94, 20, 98);
             surface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
             surface.ignoreNavMeshAgent = true;
             surface.ignoreNavMeshObstacle = false;
@@ -62,4 +62,3 @@ public static class CemeteryNavMeshBake
         Undo.RecordObject(modifier, "Excluir personaje del bake"); modifier.ignoreFromBuild = true; modifier.applyToChildren = true;
     }
 }
-

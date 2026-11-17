@@ -29,6 +29,7 @@ namespace StarterAssets
         public LayerMask aimMask = ~0;
         public float aimDistance = 150f;
         public bool projectileUsesGravity = false;
+        [HideInInspector] public bool disparoGestionado;
         readonly RaycastHit[] aimHits = new RaycastHit[64];
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
@@ -58,7 +59,7 @@ namespace StarterAssets
         {
          
             {
-                if (!enabled || !value.isPressed || Time.timeScale == 0) return;
+                if (!enabled || disparoGestionado || !value.isPressed || Time.timeScale == 0) return;
 				Shoot();
             }
         }
@@ -97,7 +98,7 @@ namespace StarterAssets
             {
                 var hit = aimHits[i];
                 var collider = hit.collider;
-                if (!collider || collider.GetComponentInParent<StarterAssetsInputs>() == this || collider.CompareTag("Projectile") || (hit.rigidbody && hit.rigidbody.CompareTag("Projectile"))) continue;
+                if (!collider || collider.gameObject.layer == 2 || collider.GetComponentInParent<StarterAssetsInputs>() == this || collider.CompareTag("Projectile") || (hit.rigidbody && hit.rigidbody.CompareTag("Projectile"))) continue;
                 if (hit.distance >= nearest) continue;
                 nearest = hit.distance; closest = hit; found = true;
             }
@@ -164,5 +165,3 @@ namespace StarterAssets
 	}
 	
 }
-
-
